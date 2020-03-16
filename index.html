@@ -1,0 +1,731 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="description" content="mapa výskytu koronairu v České republice">
+    <meta name="keywords" content="koronavirus mapa, koronavirus Středočeský kraj,
+    koronavirus Ústecký kraj, koronavirus Moravskoslezský kraj, koronavirus Zlínský kraj,
+    koronavirus Olomoucký kraj, koronavirus Jihomoravský kraj, koronavirus Královéhradecký kraj,
+    koronavirus Pardubický kraj, koronavirus Kraj Vysočina, koronavirus Jihočeský kraj, koronavirusPlzeňský kraj,
+    koronavirus Liberecký kraj, koronavirus Karlovarský kraj, koronavirus v Čechách, kde je koronavirus">
+    <meta name="author" content="Radek Jiránek / geeklab.cz">
+    <title>Koronavirus v České republice</title>
+    <style>
+
+      /* velikost mapy v okně*/
+
+      #baseMap {
+        height: 80%;
+
+      }
+
+      #text1 {
+        height: auto;
+        text-align: left;
+        background-color: #212121;
+        top: 20px;
+        padding: 2em;
+        color: #b3b3b3;
+        font-family: 'Roboto','sans-serif';
+        font-size: 90%;
+        line-height: 20px;
+        z-index: 4;
+      }
+
+      #meritko {
+        height: auto;
+        text-align: left;
+        background-color: #212121;
+        padding: 2em;
+        color: #b3b3b3;
+        font-family: 'Roboto','sans-serif';
+        font-size: 90%;
+        z-index: 4;
+      }
+
+      #gradient {
+        background: linear-gradient(to right, rgba(255, 255, 255, 0), rgba(142, 254, 255, 1), rgba(24, 252, 255, 1), rgba(251, 80, 62, 1), rgba(260, 15, 0, 1));
+        font-family: 'Roboto','sans-serif';
+        color: #b3b3b3;
+        text-align: right;
+      }
+      /* stránka vyplňující okno mapou */
+
+      html, body {
+        height: 100%;
+        margin: 0;
+        padding: 0;
+      }
+
+      #floating-panel {
+  position: absolute;
+  top: 4%;
+  left: 2%;
+  padding: 5px;
+  text-align: center;
+  font-family: 'Roboto','sans-serif';
+  line-height: 30px;
+  padding-left: 10px;
+  z-index: 5;
+}
+
+#buttonCovid19 {
+  display: inline-block;
+  width: 230px;
+  color: white;
+  text-decoration: none;
+  padding: .5em 2em;
+  outline: none;
+  border-width: 2px 0;
+  border-style: solid none;
+  border-color: #c61c00 #c61c00 #c61c00;
+  border-radius: 6px;
+  background: linear-gradient(#e72002, #e72002) #e72002;
+  transition: 0.2s;
+}
+
+#buttonCovid19:active { background: linear-gradient(#c61c00, #c61c00) #c61c00; }
+
+#buttonQuarantine {
+  display: inline-block;
+  width: 230px;
+  color: white;
+  text-decoration: none;
+  padding: .5em 2em;
+  outline: none;
+  border-width: 2px 0;
+  border-style: solid none;
+  border-color: #747474 #747474 #747474;
+  border-radius: 6px;
+  background: linear-gradient(#989898, #989898) #989898;
+  transition: 0.2s;
+}
+
+#buttonQuarantine:active { background: linear-gradient(#747474, #747474) #747474; }
+
+#buttonHolliday {
+  display: inline-block;
+  width: 230px;
+  color: white;
+  text-decoration: none;
+  padding: .5em 2em;
+  outline: none;
+  border-width: 2px 0;
+  border-style: solid none;
+  border-color: #d99208 #d99208 #d99208;
+  border-radius: 6px;
+  background: linear-gradient(#f6a103, #f6a103) #f6a103;
+  transition: 0.2s;
+}
+
+#buttonHolliday:active { background: linear-gradient(#d99208, #d99208) #d99208; }
+
+    </style>
+
+    <meta name="viewport" content="width=device-width, viewport-fit=cover">
+
+  </head>
+  <body>
+    <div id="floating-panel">
+      <button id="buttonCovid19" onclick="toggleHeatmapCovid19()">Koronavirus v ČR</button>
+      <br>
+      <button id="buttonQuarantine" onclick="toggleHeatmapQuarantine()">Karantény v krajích k 6.3.</button>
+      <br>
+      <button id="buttonHolliday" onclick="toggleHeatmapHolliday1()">Prázdniny 24. 2. - 1. 3.</button>
+      <br>
+      <button id="buttonHolliday" onclick="toggleHeatmapHolliday2()">Prázdniny 2. 3. - 8. 3.</button>
+    </div>
+    <div id="baseMap"></div>
+    <div id="meritko">
+      <div id="gradient">max 100 </div>
+    </div>
+    <div id="text1">Mapa potvrzeného výskytu koronaviru COVID-19 v České republice z veřejně dostupných dat na internetu
+      (internetové články, FB, mzcr.cz, internetové stránky KHS). Má původní má předstva byla tuto mapu transformovat na online mapu s ohnisky
+      nákazy podle měst nad daty mzcr.cz. Bohužel se mi od 9.3. nepodařilo taková data získat, ačkoli jsem rozeslal několik dopisů (MZČR, SZU) s žádostí
+      o data, zatím jsou bez odpovědi.Tak jsou data bohužel pouze z veřejně dostupných zdrojů. Veškerá zobrazená data, mají pouze informativní
+      charakter. Přesnost jednotlivých dat je popsána níže v textu. Mapa je pro srovnání souvislostí doplněna o
+      vrstvu zobrazující nařízené karantény v jednotlivých krajích aktuálně k datu 13. 3. 2020. Dále je mapa doplněna o vrstvu zobrazující města,
+      kde probíhaly jarní prázdniny v termínech 24. 2. - 1. 3. a 2. 3. - 8. 3. 2020.
+      Vrstva koronavirus v ČR zobrazuje aktuálně k datu 15. 3. 2020 pouze 201 bodů (veřejně dohledatelné umístění
+      z celkových 254 nákaz deklarovaných Ministerstvem zdravotnictví celkově v ČR
+      (https://onemocneni-aktualne.mzcr.cz/covid-19). Nejhůře s informovaností o lokalizaci onemocnění je na tom Středočeský kraj, kde lze
+      z celkového deklarovaného počtu dvacetiosmi Ministerstvem potvrzených infekcí veřejně dohledat lokaci pouze u dvanácti případů (42%). Obdobně
+      v Ústeckém kraji lze veřejně dohledat lokaci u dvanácti z osmnácti aktuálně deklarovaných případů (67%). Dále jsou pro představu uvedeny
+      poměry o zobrazení počtů infekcí (deklarované MZCR/zobrazené v mapě) v mapě  - Moravskoslezský kraj	11/9	82%, Zlínský kraj	15/8	53%, Olomoucký
+      kraj	31/31	100%, Jihomoravský kraj	14/12	86%, Královéhradecký kraj	8/7	88%, Pardubický kraj	6/6	100%, kraj Vysočina	2/2	100%,
+      Jihočeský kraj	3/6	50,00%, Plzeňský kraj	6/4	67%, Liberecký kraj	3/3	100%, Karlovarský kraj	8/8	100%. Co se týká Prahy, veřejně
+      dohledatelných lokací je pouze 10 z 96 infekcí, zobrazeno je všech 96 případů. Uvedené souřadnice v žádném případě neprezentují polohu
+      jakékoli osoby či objektu.
+      Poslední aktualizace dat k 15. 3. 2020
+
+    </div>
+    <script>
+
+      // Vizualizace mapy
+
+      var map, heatmapQuarantine, heatmapCovid19, heatmapHolliday1, heatmapHolliday2;
+
+      function initMap() {
+        map = new google.maps.Map(document.getElementById('baseMap'), {
+          zoom: 6,
+          center: {lat: 50.879153, lng: 15.537899},
+          streetViewControl: false,
+          zoomControl: false,
+          mapTypeControl: false,
+          fullscreenControl: false,
+          minZoom: 6,
+          maxZoom: 8,
+          styles:
+          [
+            {
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#212121"
+                }
+              ]
+            },
+            {
+              "elementType": "labels.icon",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#757575"
+                }
+              ]
+            },
+            {
+              "elementType": "labels.text.stroke",
+              "stylers": [
+                {
+                  "color": "#212121"
+                }
+              ]
+            },
+            {
+              "featureType": "administrative",
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#757575"
+                }
+              ]
+            },
+            {
+              "featureType": "administrative.country",
+              "elementType": "geometry.stroke",
+              "stylers": [
+                {
+                  "weight": 3
+                }
+              ]
+            },
+            {
+              "featureType": "administrative.country",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#9e9e9e"
+                },
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "administrative.land_parcel",
+              "stylers": [
+                {
+                  "visibility": "off"
+                },
+                {
+                  "weight": 2
+                }
+              ]
+            },
+            {
+              "featureType": "administrative.locality",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#bdbdbd"
+                }
+              ]
+            },
+            {
+              "featureType": "administrative.province",
+              "elementType": "geometry.stroke",
+              "stylers": [
+                {
+                  "weight": 2
+                }
+              ]
+            },
+            {
+              "featureType": "poi",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#757575"
+                }
+              ]
+            },
+            {
+              "featureType": "poi.park",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "poi.park",
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#181818"
+                }
+              ]
+            },
+            {
+              "featureType": "poi.park",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#616161"
+                }
+              ]
+            },
+            {
+              "featureType": "poi.park",
+              "elementType": "labels.text.stroke",
+              "stylers": [
+                {
+                  "color": "#1b1b1b"
+                }
+              ]
+            },
+            {
+              "featureType": "road",
+              "stylers": [
+                {
+                  "color": "#494949"
+                },
+                {
+                  "visibility": "simplified"
+                },
+                {
+                  "weight": 0.5
+                }
+              ]
+            },
+            {
+              "featureType": "road",
+              "elementType": "geometry.fill",
+              "stylers": [
+                {
+                  "color": "#2c2c2c"
+                }
+              ]
+            },
+            {
+              "featureType": "road",
+              "elementType": "geometry.stroke",
+              "stylers": [
+                {
+                  "color": "#2d2d2d"
+                },
+                {
+                  "weight": 0.5
+                }
+              ]
+            },
+            {
+              "featureType": "road",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#8a8a8a"
+                }
+              ]
+            },
+            {
+              "featureType": "road.arterial",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "road.arterial",
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#373737"
+                }
+              ]
+            },
+            {
+              "featureType": "road.highway",
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#3c3c3c"
+                }
+              ]
+            },
+            {
+              "featureType": "road.highway",
+              "elementType": "geometry.stroke",
+              "stylers": [
+                {
+                  "color": "#2d2d2d"
+                }
+              ]
+            },
+            {
+              "featureType": "road.highway",
+              "elementType": "labels",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "road.highway.controlled_access",
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#4e4e4e"
+                }
+              ]
+            },
+            {
+              "featureType": "road.local",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "road.local",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#616161"
+                }
+              ]
+            },
+            {
+              "featureType": "transit",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#757575"
+                }
+              ]
+            },
+            {
+              "featureType": "water",
+              "stylers": [
+                {
+                  "visibility": "off"
+                }
+              ]
+            },
+            {
+              "featureType": "water",
+              "elementType": "geometry",
+              "stylers": [
+                {
+                  "color": "#000000"
+                }
+              ]
+            },
+            {
+              "featureType": "water",
+              "elementType": "labels.text.fill",
+              "stylers": [
+                {
+                  "color": "#3d3d3d"
+                }
+              ]
+            }
+          ]
+
+        });
+
+        // Vizualizace mapových vrstev heatmap
+
+
+        heatmapQuarantine = new google.maps.visualization.HeatmapLayer({
+          data: getPointsQuarantine(),
+          map: map,
+          maxIntensity: 0.1,
+          radius: 60,
+          opacity: 0.8,
+          gradient: [
+      'rgba(255, 255, 255, 0)',
+      'rgba(200, 200, 200, 1)'
+            ]
+        });
+
+        heatmapHolliday1 = new google.maps.visualization.HeatmapLayer({
+          data: getPointsHolliday1(),
+          map: map,
+          radius: 50,
+          opacity: 0.8,
+          gradient: [
+      'rgba(0, 255, 255, 0)',
+      'rgba(255, 165, 0, 1)'
+            ]
+        });
+
+        heatmapHolliday2 = new google.maps.visualization.HeatmapLayer({
+          data: getPointsHolliday2(),
+          map: map,
+          radius: 50,
+          opacity: 0.8,
+          gradient: [
+      'rgba(0, 255, 255, 0)',
+      'rgba(255, 165, 0, 1)'
+            ]
+        });
+
+        heatmapCovid19 = new google.maps.visualization.HeatmapLayer({
+          data: getPointsCovid19(),
+          map: map,
+          maxIntensity: 50,
+          radius: 40,
+          opacity: 1,
+          gradient: [
+            'rgba(255, 255, 255, 0)',
+            'rgba(142, 254, 255, 1)',
+            'rgba(24, 252, 255, 1)',
+            'rgba(251, 80, 62, 1)',
+            'rgba(260, 15, 0, 1)'
+            ]
+        });
+
+      }
+
+        // funkce zapnutí / vypnutí vrstev
+
+      function toggleHeatmapQuarantine() {
+      heatmapQuarantine.setMap(heatmapQuarantine.getMap() ? null : map);
+      }
+      function toggleHeatmapCovid19() {
+      heatmapCovid19.setMap(heatmapCovid19.getMap() ? null : map);
+      }
+      function toggleHeatmapHolliday1() {
+      heatmapHolliday1.setMap(heatmapHolliday1.getMap() ? null : map);
+      }
+      function toggleHeatmapHolliday2() {
+      heatmapHolliday2.setMap(heatmapHolliday2.getMap() ? null : map);
+      }
+
+        // funkce vkládání dat mapových vrstev
+
+      function getPointsQuarantine() {
+        return [
+         {location: new google.maps.LatLng(50.065538,14.458388), weight: 0.614},
+         {location: new google.maps.LatLng(49.984923,14.997701), weight: 0.112},
+         {location: new google.maps.LatLng(49.129684,14.419657), weight: 0.298},
+         {location: new google.maps.LatLng(49.653876,13.224598), weight: 0.089},
+         {location: new google.maps.LatLng(50.180802,12.750471), weight: 0.011},
+         {location: new google.maps.LatLng(50.476927,13.803324), weight: 0.152},
+         {location: new google.maps.LatLng(50.780071,15.088629), weight: 0.004},
+         {location: new google.maps.LatLng(50.404866,15.822551), weight: 0.099},
+         {location: new google.maps.LatLng(49.892960,16.238224), weight: 0.066},
+         {location: new google.maps.LatLng(49.464292,15.621210), weight: 0.076},
+         {location: new google.maps.LatLng(49.140736,16.696639), weight: 0.029},
+         {location: new google.maps.LatLng(49.593293,17.281178), weight: 0.037},
+         {location: new google.maps.LatLng(49.845242,17.865718), weight: 0.041},
+         {location: new google.maps.LatLng(49.229885,17.709840), weight: 0.018}
+
+        ];
+      }
+
+      function getPointsHolliday1() {
+        return [
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(49.684817,18.367613),
+          new google.maps.LatLng(50.079581,12.369910),
+          new google.maps.LatLng(49.144521,15.006165),
+          new google.maps.LatLng(50.232589,12.871980),
+          new google.maps.LatLng(50.539112,14.130552),
+          new google.maps.LatLng(50.186694,15.043632),
+          new google.maps.LatLng(50.100753,14.395430),
+          new google.maps.LatLng(50.102813,14.433199),
+          new google.maps.LatLng(50.118803,14.467104),
+          new google.maps.LatLng(50.111643,14.502607),
+          new google.maps.LatLng(50.073202,14.487131),
+          new google.maps.LatLng(49.458175,17.450291),
+          new google.maps.LatLng(50.174591,12.659865)
+
+        ];
+      }
+
+      function getPointsHolliday2() {
+        return [
+          new google.maps.LatLng(50.210735,15.825247),
+          new google.maps.LatLng(49.292410,17.399453),
+          new google.maps.LatLng(50.354201,14.481742),
+          new google.maps.LatLng(49.594557,18.013558),
+          new google.maps.LatLng(49.738993,13.373554),
+          new google.maps.LatLng(49.601439,13.570618),
+          new google.maps.LatLng(49.882224,13.253870),
+          new google.maps.LatLng(49.941553,14.792095),
+          new google.maps.LatLng(50.035383,14.226446),
+          new google.maps.LatLng(50.106474,13.739542),
+          new google.maps.LatLng(50.644731,13.835303),
+          new google.maps.LatLng(49.059810,17.495532),
+          new google.maps.LatLng(49.339003,17.993882),
+          new google.maps.LatLng(49.225419, 17.662733)
+        ];
+      }
+
+      function getPointsCovid19() {
+        return [
+
+          //Praha
+          {location: new google.maps.LatLng(50.079153,14.437899), weight: 97},
+
+          //CR
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.662025,14.053303),
+          new google.maps.LatLng(50.662025,14.053303),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.539112,14.130552),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.774308,14.212813),
+          new google.maps.LatLng(50.210735,15.825247),
+          new google.maps.LatLng(49.459765,18.142797),
+          new google.maps.LatLng(50.359450,14.521235),
+          new google.maps.LatLng(50.141891,14.106713),
+          new google.maps.LatLng(50.662025,14.053303),
+          new google.maps.LatLng(49.593569,17.251037),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.564469,15.939515),
+          new google.maps.LatLng(49.870890,16.311059),
+          new google.maps.LatLng(50.172726, 16.169370),
+          new google.maps.LatLng(49.647877,16.758190),
+          new google.maps.LatLng(49.459765,18.142797),
+          new google.maps.LatLng(49.669993,13.205189),
+          new google.maps.LatLng(49.059985,17.495775),
+          new google.maps.LatLng(49.821188,18.262468),
+          new google.maps.LatLng(48.996690,14.150006),
+          new google.maps.LatLng(50.723143,15.170008),
+          new google.maps.LatLng(50.263447,14.299383),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.195835,16.606719),
+          new google.maps.LatLng(49.669993,13.205189),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(50.188986,14.075837),
+          new google.maps.LatLng(50.188986,14.075837),
+          new google.maps.LatLng(49.459765,18.142797),
+          new google.maps.LatLng(49.059985,17.495775),
+          new google.maps.LatLng(49.059985,17.495775),
+          new google.maps.LatLng(49.870890,16.311059),
+          new google.maps.LatLng(49.462147,16.627103),
+          new google.maps.LatLng(49.564469,15.939515),
+          new google.maps.LatLng(48.977233,14.48093),
+          new google.maps.LatLng(50.415596,16.165565),
+          new google.maps.LatLng(50.415596,16.165565),
+          new google.maps.LatLng(50.415596,16.165565),
+          new google.maps.LatLng(50.210735,15.825247),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(50.402847,14.957409),
+          new google.maps.LatLng(49.653796,18.011259),
+          new google.maps.LatLng(49.653796,18.011259),
+          new google.maps.LatLng(49.821188,18.262468),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.594682,17.251037),
+          new google.maps.LatLng(48.755262,16.882722),
+          new google.maps.LatLng(50.025231, 15.075479),
+          new google.maps.LatLng(50.025231, 15.075479),
+          new google.maps.LatLng(50.025231, 15.075479),
+          new google.maps.LatLng(50.232030,12.872552),
+          new google.maps.LatLng(50.232030,12.872552),
+          new google.maps.LatLng(48.824459,16.813670),
+          new google.maps.LatLng(48.824459,16.813670),
+          new google.maps.LatLng(50.259769,14.517778),
+          new google.maps.LatLng(50.266134,14.531168),
+          new google.maps.LatLng(50.683927,15.149890),
+          new google.maps.LatLng(49.874186,15.260570),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.730457,17.298965),
+          new google.maps.LatLng(49.973354,16.963974),
+          new google.maps.LatLng(49.669993,13.205189),
+          new google.maps.LatLng(49.669993,13.205189),
+          new google.maps.LatLng(49.873012,16.861300),
+          new google.maps.LatLng(49.487230,17.056771),
+          new google.maps.LatLng(49.593569,17.251037),
+          new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(50.683927,15.149890),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(50.210735,15.825247),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.261009,13.909900),
+          new google.maps.LatLng(50.034891,15.781514),
+          new google.maps.LatLng(50.034891,15.781514),
+          new google.maps.LatLng(49.986021,16.487683),
+          new google.maps.LatLng(49.986021,16.487683),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(48.755262,16.882722),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807)
+
+
+        ];
+      }
+
+    </script>
+    <script async defer
+        src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBApCJ5EKTOuhdBmbzm-lxpEHI8NZo1TOQ&libraries=visualization&callback=initMap">
+    </script>
+  </body>
+</html>
