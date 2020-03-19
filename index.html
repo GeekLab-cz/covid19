@@ -137,7 +137,7 @@
     </div>
     <div id="baseMap"></div>
     <div id="meritko">
-      <div id="gradient">max 100 </div>
+      <div id="gradient">max 200 </div>
     </div>
     <div id="text1">Mapa potvrzeného výskytu koronaviru COVID-19 v České republice z veřejně dostupných dat na internetu
       (internetové články, FB, mzcr.cz, internetové stránky KHS). Má původní má předstva byla tuto mapu transformovat na online mapu s ohnisky
@@ -149,14 +149,14 @@
       Vrstva koronavirus v ČR zobrazuje aktuálně k datu 15. 3. 2020 pouze 201 bodů (veřejně dohledatelné umístění
       z celkových 254 nákaz deklarovaných Ministerstvem zdravotnictví celkově v ČR
       (https://onemocneni-aktualne.mzcr.cz/covid-19). Nejhůře s informovaností o lokalizaci onemocnění je na tom Středočeský kraj, kde lze
-      z celkového deklarovaného počtu dvacetiosmi Ministerstvem potvrzených infekcí veřejně dohledat lokaci pouze u dvanácti případů (42%). Obdobně
-      v Ústeckém kraji lze veřejně dohledat lokaci u dvanácti z osmnácti aktuálně deklarovaných případů (67%). Dále jsou pro představu uvedeny
-      poměry o zobrazení počtů infekcí (deklarované MZCR/zobrazené v mapě) v mapě  - Moravskoslezský kraj	11/9	82%, Zlínský kraj	15/8	53%, Olomoucký
-      kraj	31/31	100%, Jihomoravský kraj	14/12	86%, Královéhradecký kraj	8/7	88%, Pardubický kraj	6/6	100%, kraj Vysočina	2/2	100%,
-      Jihočeský kraj	3/6	50,00%, Plzeňský kraj	6/4	67%, Liberecký kraj	3/3	100%, Karlovarský kraj	8/8	100%. Co se týká Prahy, veřejně
-      dohledatelných lokací je pouze 10 z 96 infekcí, zobrazeno je všech 96 případů. Uvedené souřadnice v žádném případě neprezentují polohu
+      veřejně dohledat lokaci pouze u 14 případů z celkového deklarovaného počtu 56 Ministerstvem potvrzených infekcí (25%). Obdobně
+      v Ústeckém kraji lze veřejně dohledat lokaci u 9 z 19 aktuálně deklarovaných případů (34%). Dále jsou pro představu uvedeny
+      poměry o zobrazení počtů infekcí (deklarované MZCR/zobrazené v mapě) v mapě  - Moravskoslezský kraj	21/34	62%, Zlínský kraj	23/40	58%, Olomoucký
+      kraj	31/51	61%, Jihomoravský kraj	18/41	44%, Královéhradecký kraj	10/14	71%, Pardubický kraj	12/15	80%, kraj Vysočina	8/9	89%,
+      Jihočeský kraj	10/17	59%, Plzeňský kraj	5/14	35%, Liberecký kraj	3/5	60%, Karlovarský kraj	15/19	79%. Co se týká Prahy, veřejně
+      dohledatelných lokací je pouze 10 z 181 infekcí, zobrazeno je všech 96 případů. Uvedené souřadnice v žádném případě neprezentují polohu
       jakékoli osoby či objektu.
-      Poslední aktualizace dat k 15. 3. 2020
+      Poslední aktualizace dat k 19. 3. 2020
 
     </div>
     <script>
@@ -505,7 +505,7 @@
         heatmapCovid19 = new google.maps.visualization.HeatmapLayer({
           data: getPointsCovid19(),
           map: map,
-          maxIntensity: 50,
+          maxIntensity: 70,
           radius: 40,
           opacity: 1,
           gradient: [
@@ -599,12 +599,9 @@
         return [
 
           //Praha
-          {location: new google.maps.LatLng(50.079153,14.437899), weight: 97},
+          {location: new google.maps.LatLng(50.079153,14.437899), weight: 181},
 
           //CR
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.774308,14.212813),
           new google.maps.LatLng(50.774308,14.212813),
           new google.maps.LatLng(50.774308,14.212813),
           new google.maps.LatLng(50.662025,14.053303),
@@ -693,9 +690,14 @@
           new google.maps.LatLng(49.487230,17.056771),
           new google.maps.LatLng(49.593569,17.251037),
           new google.maps.LatLng(49.702639,17.076394),
+          new google.maps.LatLng(49.059985,17.495775),
+          new google.maps.LatLng(49.059985,17.495775),
+          new google.maps.LatLng(49.059985,17.495775),
+          new google.maps.LatLng(49.059985,17.495775),
           new google.maps.LatLng(49.059720,17.492423),
           new google.maps.LatLng(49.059720,17.492423),
           new google.maps.LatLng(50.683927,15.149890),
+          new google.maps.LatLng(49.770632,17.121807),
           new google.maps.LatLng(49.770632,17.121807),
           new google.maps.LatLng(49.770632,17.121807),
           new google.maps.LatLng(49.770632,17.121807),
@@ -706,19 +708,72 @@
           new google.maps.LatLng(49.966191,12.702183),
           new google.maps.LatLng(49.966191,12.702183),
           new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.394547,14.686890),
           new google.maps.LatLng(49.261009,13.909900),
+          new google.maps.LatLng(48.994445,13.872572),
           new google.maps.LatLng(50.034891,15.781514),
           new google.maps.LatLng(50.034891,15.781514),
-          new google.maps.LatLng(49.986021,16.487683),
-          new google.maps.LatLng(49.986021,16.487683),
-          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.973532,16.394613),
+          new google.maps.LatLng(49.973532,16.394613),
           new google.maps.LatLng(48.755262,16.882722),
           new google.maps.LatLng(49.770632,17.121807),
           new google.maps.LatLng(49.770632,17.121807),
           new google.maps.LatLng(49.770632,17.121807),
           new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807)
-
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.770632,17.121807),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.224968,17.663458),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.788037,14.293517),
+          new google.maps.LatLng(49.830163,18.481255),
+          new google.maps.LatLng(49.653796,18.011259),
+          new google.maps.LatLng(49.653796,18.011259),
+          new google.maps.LatLng(49.821188,18.262468),
+          new google.maps.LatLng(49.821188,18.262468),
+          new google.maps.LatLng(49.821188,18.262468),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.683175,18.367234),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.966191,12.702183),
+          new google.maps.LatLng(49.739015,15.359457),
+          new google.maps.LatLng(49.739015,15.359458),
+          new google.maps.LatLng(49.739015,15.359459),
+          new google.maps.LatLng(49.739015,15.359460),
+          new google.maps.LatLng(49.040623,16.967765),
+          new google.maps.LatLng(49.738792,13.372951),
+          new google.maps.LatLng(49.910039,16.612077),
+          new google.maps.LatLng(49.910039,16.612077),
+          new google.maps.LatLng(49.910039,16.612077),
+          new google.maps.LatLng(49.973532,16.394613),
+          new google.maps.LatLng(49.973532,16.394613),
+          new google.maps.LatLng(49.901812,16.447461),
+          new google.maps.LatLng(49.179467,17.801141),
+          new google.maps.LatLng(49.179467,17.801141),
+          new google.maps.LatLng(49.288841,17.443418),
+          new google.maps.LatLng(49.288841,17.443418),
+          new google.maps.LatLng(49.739015,15.359457),
+          new google.maps.LatLng(49.739015,15.359458),
+          new google.maps.LatLng(50.079547,12.370076),
+          new google.maps.LatLng(50.079547,12.370076),
+          new google.maps.LatLng(50.231804,12.871963),
+          new google.maps.LatLng(49.352447,16.402639),
+          new google.maps.LatLng(49.348851,16.422236),
+          new google.maps.LatLng(48.760382,16.994484),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.059720,17.492423),
+          new google.maps.LatLng(49.831941,14.275580),
+          new google.maps.LatLng(50.174673,12.660099),
+          new google.maps.LatLng(48.755262,16.882722),
+          new google.maps.LatLng(48.755262,16.882722)
 
         ];
       }
