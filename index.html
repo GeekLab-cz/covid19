@@ -8,7 +8,7 @@
     koronavirus Olomoucký kraj, koronavirus Jihomoravský kraj, koronavirus Královéhradecký kraj,
     koronavirus Pardubický kraj, koronavirus Kraj Vysočina, koronavirus Jihočeský kraj, koronavirusPlzeňský kraj,
     koronavirus Liberecký kraj, koronavirus Karlovarský kraj, koronavirus v Čechách, kde je koronavirus">
-    <meta name="author" content="Radek Jiránek / geeklab.cz">
+    <meta name="author" content="Radek Jiránek, Ondřej Kolář / geeklab.cz">
     <title>Koronavirus v České republice</title>
     <style>
 
@@ -125,9 +125,9 @@
     <meta name="viewport" content="width=device-width, viewport-fit=cover">
 
   </head>
-  <body>
+  <body onload="toggleHeatmapQuarantine();toggleHeatmapHolliday1();toggleHeatmapHolliday2()">
     <div id="floating-panel">
-      <button id="buttonCovid19" onclick="toggleHeatmapCovid19()">Koronavirus v ČR</button>
+      <button id="buttonCovid19" onclick="toggleHeatmapCovid19()">Koronavirus v okresech ČR</button>
       <br>
       <button id="buttonQuarantine" onclick="toggleHeatmapQuarantine()">Karantény v krajích k 6.3.</button>
       <br>
@@ -137,26 +137,23 @@
     </div>
     <div id="baseMap"></div>
     <div id="meritko">
-      <div id="gradient">max 200 </div>
+      <div id="gradient">infikovaných 80+ </div>
     </div>
     <div id="text1">Mapa potvrzeného výskytu koronaviru COVID-19 v České republice z veřejně dostupných dat na internetu
-      (internetové články, FB, mzcr.cz, internetové stránky KHS). Má původní má předstva byla tuto mapu transformovat na online mapu s ohnisky
+      (internetové články, FB, mzcr.cz, internetové stránky KHS). Má původní předstva byla tuto mapu transformovat na deně aktualizovanou online mapu s ohnisky
       nákazy podle měst nad daty mzcr.cz. Bohužel se mi od 9.3. nepodařilo taková data získat, ačkoli jsem rozeslal několik dopisů (MZČR, SZU) s žádostí
-      o data, zatím jsou bez odpovědi.Tak jsou data bohužel pouze z veřejně dostupných zdrojů. Veškerá zobrazená data, mají pouze informativní
-      charakter. Přesnost jednotlivých dat je popsána níže v textu. Mapa je pro srovnání souvislostí doplněna o
+      o data, zatím jsou bez odpovědi do 21. 3. 2020. Konečně dne 21.3. začaly některé hygienické stanice v krajích zveřejňovat data nakažených podle okresů.
+      Dufám, že tato data, jak jsem žádal, budou aktualizována denně. Bohužel zatím nejsou data zveřejňována komplexně napříč kraji tak, aby
+      bylo možné je automaticky zpracovávat a online zobrazovat nad mapou. Každá hgienická stanice zobrazuje data ve vlastním formátu. Aktuálně
+      jsem nedohledal data z Ústeckého, Pardubického, Plzeňského a Karlovarského kraje. Informace z jednotlivých KHS jsem soustředil
+      <a href="https://docs.google.com/spreadsheets/d/1hsN__vyioSk5JGkJfjsxOWBc7ZTgoCm1sjA9vxZkkUE/edit?usp=sharing">zde</a>.
+      Ideální varianta by byla, pokud by takováto data dávaly KHS periodicky k dispozici veřejně tak, aby bylo možné je datově zpracovávat.
+      Mapa je pro srovnání souvislostí doplněna o
       vrstvu zobrazující nařízené karantény v jednotlivých krajích aktuálně k datu 13. 3. 2020. Dále je mapa doplněna o vrstvu zobrazující města,
       kde probíhaly jarní prázdniny v termínech 24. 2. - 1. 3. a 2. 3. - 8. 3. 2020.
-      Vrstva koronavirus v ČR zobrazuje aktuálně k datu 15. 3. 2020 pouze 201 bodů (veřejně dohledatelné umístění
-      z celkových 254 nákaz deklarovaných Ministerstvem zdravotnictví celkově v ČR
-      (https://onemocneni-aktualne.mzcr.cz/covid-19). Nejhůře s informovaností o lokalizaci onemocnění je na tom Středočeský kraj, kde lze
-      veřejně dohledat lokaci pouze u 14 případů z celkového deklarovaného počtu 56 Ministerstvem potvrzených infekcí (25%). Obdobně
-      v Ústeckém kraji lze veřejně dohledat lokaci u 9 z 19 aktuálně deklarovaných případů (34%). Dále jsou pro představu uvedeny
-      poměry o zobrazení počtů infekcí (deklarované MZCR/zobrazené v mapě) v mapě  - Moravskoslezský kraj	21/34	62%, Zlínský kraj	23/40	58%, Olomoucký
-      kraj	31/51	61%, Jihomoravský kraj	18/41	44%, Královéhradecký kraj	10/14	71%, Pardubický kraj	12/15	80%, kraj Vysočina	8/9	89%,
-      Jihočeský kraj	10/17	59%, Plzeňský kraj	5/14	35%, Liberecký kraj	3/5	60%, Karlovarský kraj	15/19	79%. Co se týká Prahy, veřejně
-      dohledatelných lokací je pouze 10 z 181 infekcí, zobrazeno je všech 96 případů. Uvedené souřadnice v žádném případě neprezentují polohu
-      jakékoli osoby či objektu.
-      Poslední aktualizace dat k 19. 3. 2020
+      <br>
+      <br>
+      Poslední aktualizace dat k 21. 3. 2020
 
     </div>
     <script>
@@ -168,12 +165,12 @@
       function initMap() {
         map = new google.maps.Map(document.getElementById('baseMap'), {
           zoom: 6,
-          center: {lat: 50.879153, lng: 15.537899},
+          center: {lat: 49.879153, lng: 15.537899},
           streetViewControl: false,
           zoomControl: false,
           mapTypeControl: false,
           fullscreenControl: false,
-          minZoom: 6,
+          minZoom: 7,
           maxZoom: 8,
           styles:
           [
@@ -471,7 +468,7 @@
         heatmapQuarantine = new google.maps.visualization.HeatmapLayer({
           data: getPointsQuarantine(),
           map: map,
-          maxIntensity: 0.1,
+          maxIntensity: 0.01,
           radius: 60,
           opacity: 0.8,
           gradient: [
@@ -505,9 +502,9 @@
         heatmapCovid19 = new google.maps.visualization.HeatmapLayer({
           data: getPointsCovid19(),
           map: map,
-          maxIntensity: 70,
-          radius: 40,
-          opacity: 1,
+          maxIntensity: 80,
+          radius: 80,
+          opacity: 0.7,
           gradient: [
             'rgba(255, 255, 255, 0)',
             'rgba(142, 254, 255, 1)',
@@ -598,182 +595,79 @@
       function getPointsCovid19() {
         return [
 
-          //Praha
-          {location: new google.maps.LatLng(50.079153,14.437899), weight: 181},
-
-          //CR
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.662025,14.053303),
-          new google.maps.LatLng(50.662025,14.053303),
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.539112,14.130552),
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.774308,14.212813),
-          new google.maps.LatLng(50.210735,15.825247),
-          new google.maps.LatLng(49.459765,18.142797),
-          new google.maps.LatLng(50.359450,14.521235),
-          new google.maps.LatLng(50.141891,14.106713),
-          new google.maps.LatLng(50.662025,14.053303),
-          new google.maps.LatLng(49.593569,17.251037),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.564469,15.939515),
-          new google.maps.LatLng(49.870890,16.311059),
-          new google.maps.LatLng(50.172726, 16.169370),
-          new google.maps.LatLng(49.647877,16.758190),
-          new google.maps.LatLng(49.459765,18.142797),
-          new google.maps.LatLng(49.669993,13.205189),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.821188,18.262468),
-          new google.maps.LatLng(48.996690,14.150006),
-          new google.maps.LatLng(50.723143,15.170008),
-          new google.maps.LatLng(50.263447,14.299383),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.195835,16.606719),
-          new google.maps.LatLng(49.669993,13.205189),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(50.188986,14.075837),
-          new google.maps.LatLng(50.188986,14.075837),
-          new google.maps.LatLng(49.459765,18.142797),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.870890,16.311059),
-          new google.maps.LatLng(49.462147,16.627103),
-          new google.maps.LatLng(49.564469,15.939515),
-          new google.maps.LatLng(48.977233,14.48093),
-          new google.maps.LatLng(50.415596,16.165565),
-          new google.maps.LatLng(50.415596,16.165565),
-          new google.maps.LatLng(50.415596,16.165565),
-          new google.maps.LatLng(50.210735,15.825247),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(50.402847,14.957409),
-          new google.maps.LatLng(49.653796,18.011259),
-          new google.maps.LatLng(49.653796,18.011259),
-          new google.maps.LatLng(49.821188,18.262468),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.594682,17.251037),
-          new google.maps.LatLng(48.755262,16.882722),
-          new google.maps.LatLng(50.025231, 15.075479),
-          new google.maps.LatLng(50.025231, 15.075479),
-          new google.maps.LatLng(50.025231, 15.075479),
-          new google.maps.LatLng(50.232030,12.872552),
-          new google.maps.LatLng(50.232030,12.872552),
-          new google.maps.LatLng(48.824459,16.813670),
-          new google.maps.LatLng(48.824459,16.813670),
-          new google.maps.LatLng(50.259769,14.517778),
-          new google.maps.LatLng(50.266134,14.531168),
-          new google.maps.LatLng(50.683927,15.149890),
-          new google.maps.LatLng(49.874186,15.260570),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.730457,17.298965),
-          new google.maps.LatLng(49.973354,16.963974),
-          new google.maps.LatLng(49.669993,13.205189),
-          new google.maps.LatLng(49.669993,13.205189),
-          new google.maps.LatLng(49.873012,16.861300),
-          new google.maps.LatLng(49.487230,17.056771),
-          new google.maps.LatLng(49.593569,17.251037),
-          new google.maps.LatLng(49.702639,17.076394),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.059985,17.495775),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(50.683927,15.149890),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(50.210735,15.825247),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.394547,14.686890),
-          new google.maps.LatLng(49.261009,13.909900),
-          new google.maps.LatLng(48.994445,13.872572),
-          new google.maps.LatLng(50.034891,15.781514),
-          new google.maps.LatLng(50.034891,15.781514),
-          new google.maps.LatLng(49.973532,16.394613),
-          new google.maps.LatLng(49.973532,16.394613),
-          new google.maps.LatLng(48.755262,16.882722),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.770632,17.121807),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.224968,17.663458),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.788037,14.293517),
-          new google.maps.LatLng(49.830163,18.481255),
-          new google.maps.LatLng(49.653796,18.011259),
-          new google.maps.LatLng(49.653796,18.011259),
-          new google.maps.LatLng(49.821188,18.262468),
-          new google.maps.LatLng(49.821188,18.262468),
-          new google.maps.LatLng(49.821188,18.262468),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.683175,18.367234),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.966191,12.702183),
-          new google.maps.LatLng(49.739015,15.359457),
-          new google.maps.LatLng(49.739015,15.359458),
-          new google.maps.LatLng(49.739015,15.359459),
-          new google.maps.LatLng(49.739015,15.359460),
-          new google.maps.LatLng(49.040623,16.967765),
-          new google.maps.LatLng(49.738792,13.372951),
-          new google.maps.LatLng(49.910039,16.612077),
-          new google.maps.LatLng(49.910039,16.612077),
-          new google.maps.LatLng(49.910039,16.612077),
-          new google.maps.LatLng(49.973532,16.394613),
-          new google.maps.LatLng(49.973532,16.394613),
-          new google.maps.LatLng(49.901812,16.447461),
-          new google.maps.LatLng(49.179467,17.801141),
-          new google.maps.LatLng(49.179467,17.801141),
-          new google.maps.LatLng(49.288841,17.443418),
-          new google.maps.LatLng(49.288841,17.443418),
-          new google.maps.LatLng(49.739015,15.359457),
-          new google.maps.LatLng(49.739015,15.359458),
-          new google.maps.LatLng(50.079547,12.370076),
-          new google.maps.LatLng(50.079547,12.370076),
-          new google.maps.LatLng(50.231804,12.871963),
-          new google.maps.LatLng(49.352447,16.402639),
-          new google.maps.LatLng(49.348851,16.422236),
-          new google.maps.LatLng(48.760382,16.994484),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.059720,17.492423),
-          new google.maps.LatLng(49.831941,14.275580),
-          new google.maps.LatLng(50.174673,12.660099),
-          new google.maps.LatLng(48.755262,16.882722),
-          new google.maps.LatLng(48.755262,16.882722)
+          //CR kraje
+          {location: new google.maps.LatLng(50.086601,14.411545), weight: 9},
+          {location: new google.maps.LatLng(50.071466,14.429272), weight: 7},
+          {location: new google.maps.LatLng(50.085427,14.467366), weight: 5},
+          {location: new google.maps.LatLng(50.037846,14.438510), weight: 59},
+          {location: new google.maps.LatLng(50.054534,14.383326), weight: 47},
+          {location: new google.maps.LatLng(50.092909, 14.340886), weight: 43},
+          {location: new google.maps.LatLng(50.103611,14.434229), weight: 13},
+          {location: new google.maps.LatLng(50.124854,14.452172), weight: 27},
+          {location: new google.maps.LatLng(50.108952,14.508173), weight: 30},
+          {location: new google.maps.LatLng(50.068334,14.495635), weight: 32},
+          {location: new google.maps.LatLng(49.924184,14.014610), weight: 6},
+          {location: new google.maps.LatLng(49.739774,14.783227), weight: 14},
+          {location: new google.maps.LatLng(49.877726,15.242714), weight: 4},
+          {location: new google.maps.LatLng(50.197746,14.083477), weight: 5},
+          {location: new google.maps.LatLng(50.022584,15.079596), weight: 5},
+          {location: new google.maps.LatLng(50.402812,14.891524), weight: 4},
+          {location: new google.maps.LatLng(50.351120,14.517558), weight: 19},
+          {location: new google.maps.LatLng(50.202868,15.083989), weight: 6},
+          {location: new google.maps.LatLng(49.671860,14.122258), weight: 8},
+          {location: new google.maps.LatLng(49.956136,14.749302), weight: 8},
+          {location: new google.maps.LatLng(50.187268,14.619685), weight: 7},
+          {location: new google.maps.LatLng(50.073541,14.218358), weight: 7},
+          {location: new google.maps.LatLng(49.900478,14.346074), weight: 7},
+          {location: new google.maps.LatLng(50.086487,13.725304), weight: 1},
+          {location: new google.maps.LatLng(50.476927,13.803324), weight: 36},
+          {location: new google.maps.LatLng(50.025691,17.450839), weight: 9},
+          {location: new google.maps.LatLng(49.897404,17.877826), weight: 12},
+          {location: new google.maps.LatLng(49.649969,18.011741), weight: 7},
+          {location: new google.maps.LatLng(49.805040,18.232597), weight: 22},
+          {location: new google.maps.LatLng(49.829720,18.480567), weight: 3},
+          {location: new google.maps.LatLng(49.601667,18.482240), weight: 36},
+          {location: new google.maps.LatLng(49.293730,17.433348), weight: 7},
+          {location: new google.maps.LatLng(49.032338,17.583764), weight: 21},
+          {location: new google.maps.LatLng(49.382823,18.090550), weight: 10},
+          {location: new google.maps.LatLng(49.184853,17.790152), weight: 9},
+          {location: new google.maps.LatLng(49.683933,17.266823), weight: 65},
+          {location: new google.maps.LatLng(49.499718,17.036169), weight: 4},
+          {location: new google.maps.LatLng(49.489504,17.587254), weight: 1},
+          {location: new google.maps.LatLng(49.966649,16.939316), weight: 2},
+          {location: new google.maps.LatLng(50.273809,17.170307), weight: 0},
+          {location: new google.maps.LatLng(49.206023,16.599237), weight: 34},
+          {location: new google.maps.LatLng(49.339829,16.405365), weight: 6},
+          {location: new google.maps.LatLng(49.067884,16.598262), weight: 6},
+          {location: new google.maps.LatLng(49.460362,16.635340), weight: 5},
+          {location: new google.maps.LatLng(48.837115,16.783454), weight: 10},
+          {location: new google.maps.LatLng(48.940269,17.213463), weight: 2},
+          {location: new google.maps.LatLng(49.233219,16.985990), weight: 0},
+          {location: new google.maps.LatLng(48.898722,16.140731), weight: 3},
+          {location: new google.maps.LatLng(50.231812,15.691164), weight: 11},
+          {location: new google.maps.LatLng(50.409083,15.426049), weight: 0},
+          {location: new google.maps.LatLng(50.469582,16.150419), weight: 3},
+          {location: new google.maps.LatLng(50.197437,16.260331), weight: 1},
+          {location: new google.maps.LatLng(50.561237,15.827796), weight: 2},
+          {location: new google.maps.LatLng(49.892960,16.238224), weight: 22},
+          {location: new google.maps.LatLng(49.323385,15.552532), weight: 1},
+          {location: new google.maps.LatLng(49.673087,15.568357), weight: 11},
+          {location: new google.maps.LatLng(49.429860,15.140478), weight: 0},
+          {location: new google.maps.LatLng(49.161355,15.900628), weight: 0},
+          {location: new google.maps.LatLng(49.511151,16.069591), weight: 3},
+          {location: new google.maps.LatLng(49.259338,13.888760), weight: 4},
+          {location: new google.maps.LatLng(49.370340,14.206750), weight: 0},
+          {location: new google.maps.LatLng(49.372197,14.677274), weight: 0},
+          {location: new google.maps.LatLng(48.987208,13.879521), weight: 3},
+          {location: new google.maps.LatLng(49.003238,14.516330), weight: 1},
+          {location: new google.maps.LatLng(49.095091,15.038811), weight: 0},
+          {location: new google.maps.LatLng(48.741653,14.305492), weight: 2},
+          {location: new google.maps.LatLng(49.653876,13.224598), weight: 19},
+          {location: new google.maps.LatLng(50.653147,14.630330), weight: 1},
+          {location: new google.maps.LatLng(50.778629,14.984695), weight: 1},
+          {location: new google.maps.LatLng(50.726957,15.244553), weight: 6},
+          {location: new google.maps.LatLng(50.592572,15.402058), weight: 1},
+          {location: new google.maps.LatLng(50.180802,12.750471), weight: 32}
 
         ];
       }
