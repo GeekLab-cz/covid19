@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <link rel="shortcut icon" href="images/mini.png">˰
     <meta charset="utf-8">
     <meta name="description" content="mapa výskytu koronairu v České republice">
     <meta name="keywords" content="koronavirus mapa, koronavirus Středočeský kraj,
@@ -71,10 +72,10 @@
 
 #buttonCovid19 {
   display: inline-block;
-  width: 230px;
+  width: 200px;
   color: white;
   text-decoration: none;
-  padding: .5em 2em;
+  padding: .5em 1em;
   outline: none;
   border-width: 2px 0;
   border-style: solid none;
@@ -82,16 +83,17 @@
   border-radius: 6px;
   background: linear-gradient(#e72002, #e72002) #e72002;
   transition: 0.2s;
+  font-size: .8em;
 }
 
 #buttonCovid19:active { background: linear-gradient(#c61c00, #c61c00) #c61c00; }
 
 #buttonQuarantine {
   display: inline-block;
-  width: 230px;
+  width: 200px;
   color: white;
   text-decoration: none;
-  padding: .5em 2em;
+  padding: .5em 1em;
   outline: none;
   border-width: 2px 0;
   border-style: solid none;
@@ -99,16 +101,17 @@
   border-radius: 6px;
   background: linear-gradient(#989898, #989898) #989898;
   transition: 0.2s;
+  font-size: .8em;
 }
 
 #buttonQuarantine:active { background: linear-gradient(#747474, #747474) #747474; }
 
 #buttonHolliday {
   display: inline-block;
-  width: 230px;
+  width: 200px;
   color: white;
   text-decoration: none;
-  padding: .5em 2em;
+  padding: .5em 1em;
   outline: none;
   border-width: 2px 0;
   border-style: solid none;
@@ -116,6 +119,7 @@
   border-radius: 6px;
   background: linear-gradient(#f6a103, #f6a103) #f6a103;
   transition: 0.2s;
+  font-size: .8em;
 }
 
 #buttonHolliday:active { background: linear-gradient(#d99208, #d99208) #d99208; }
@@ -145,19 +149,19 @@
       charakter, nelze je interpretovat doslovně. GPS souřadnice zobrazují abstrahované pozice krajů, případně okresů v ČR. Má
       původní předstva byla tuto mapu transformovat na denně aktualizovanou online mapu s ohnisky
       nákazy podle měst nad daty mzcr.cz. Bohužel se mi od 9.3. nepodařilo taková data získat, ačkoli jsem rozeslal několik dopisů (MZČR, SZU) s žádostí
-      o data, zatím jsou do 21. 3. 2020 bez odpovědi. Konečně dne 21.3. začaly některé hygienické stanice v krajích zveřejňovat data nakažených podle okresů.
+      o data, zatím jsou bez odpovědi. Konečně dne 21.3. začaly některé hygienické stanice v krajích zveřejňovat data nakažených podle okresů.
       Dufám, že tato data, jak jsem žádal, budou aktualizována denně. Bohužel zatím nejsou data zveřejňována komplexně napříč kraji tak, aby
       bylo možné je automaticky zpracovávat a online zobrazovat nad mapou. Každá hgienická stanice zobrazuje data ve vlastním formátu. Aktuálně
       jsem nedohledal data z Ústeckého, Pardubického, Plzeňského a Karlovarského kraje. Informace z jednotlivých KHS jsem soustředil
-      <a href="https://docs.google.com/spreadsheets/d/1hsN__vyioSk5JGkJfjsxOWBc7ZTgoCm1sjA9vxZkkUE/edit?usp=sharing">zde</a>.
-      Ideální varianta by byla, pokud by takováto data dávaly KHS periodicky k dispozici veřejně tak, aby bylo možné je digitáně zpracovávat.
+      <a href="https://docs.google.com/spreadsheets/d/1hsN__vyioSk5JGkJfjsxOWBc7ZTgoCm1sjA9vxZkkUE/edit?usp=sharing">zde</a> .
+      Ideální varianta by byla, pokud by data dávaly KHS periodicky k dispozici veřejně, aby bylo možné je digitáně zpracovávat.
       Mapa je pro srovnání souvislostí doplněna o
       vrstvu zobrazující nařízené karantény v jednotlivých krajích aktuálně k datu 13. 3. 2020. Dále je mapa doplněna o vrstvu zobrazující města,
       kde probíhaly jarní prázdniny v termínech 24. 2. - 1. 3. a 2. 3. - 8. 3. 2020. Uvedené souřadnice v žádném případě neprezentují polohu
       jakékoli osoby či objektu.
       <br>
       <br>
-      Poslední aktualizace dat k 21. 3. 2020
+      Poslední aktualizace dat k 23. 3. 2020 21:40
 
     </div>
     <script>
@@ -600,78 +604,79 @@
         return [
 
           //CR kraje
-          {location: new google.maps.LatLng(50.086601,14.411545), weight: 10},
-          {location: new google.maps.LatLng(50.071466,14.429272), weight: 8},
-          {location: new google.maps.LatLng(50.085427,14.467366), weight: 6},
-          {location: new google.maps.LatLng(50.037846,14.438510), weight: 59},
-          {location: new google.maps.LatLng(50.054534,14.383326), weight: 53},
-          {location: new google.maps.LatLng(50.092909, 14.340886), weight: 49},
-          {location: new google.maps.LatLng(50.103611,14.434229), weight: 15},
-          {location: new google.maps.LatLng(50.124854,14.452172), weight: 29},
-          {location: new google.maps.LatLng(50.108952,14.508173), weight: 32},
-          {location: new google.maps.LatLng(50.068334,14.495635), weight: 39},
-          {location: new google.maps.LatLng(49.924184,14.014610), weight: 8},
-          {location: new google.maps.LatLng(49.739774,14.783227), weight: 18},
-          {location: new google.maps.LatLng(49.877726,15.242714), weight: 4},
-          {location: new google.maps.LatLng(50.197746,14.083477), weight: 18},
-          {location: new google.maps.LatLng(50.022584,15.079596), weight: 5},
-          {location: new google.maps.LatLng(50.402812,14.891524), weight: 4},
-          {location: new google.maps.LatLng(50.351120,14.517558), weight: 19},
-          {location: new google.maps.LatLng(50.202868,15.083989), weight: 6},
-          {location: new google.maps.LatLng(49.671860,14.122258), weight: 8},
-          {location: new google.maps.LatLng(49.956136,14.749302), weight: 8},
-          {location: new google.maps.LatLng(50.187268,14.619685), weight: 9},
-          {location: new google.maps.LatLng(50.073541,14.218358), weight: 8},
-          {location: new google.maps.LatLng(49.900478,14.346074), weight: 8},
-          {location: new google.maps.LatLng(50.086487,13.725304), weight: 1},
-          {location: new google.maps.LatLng(50.476927,13.803324), weight: 39},
-          {location: new google.maps.LatLng(50.025691,17.450839), weight: 10},
-          {location: new google.maps.LatLng(49.897404,17.877826), weight: 14},
-          {location: new google.maps.LatLng(49.649969,18.011741), weight: 7},
-          {location: new google.maps.LatLng(49.805040,18.232597), weight: 31},
-          {location: new google.maps.LatLng(49.829720,18.480567), weight: 8},
-          {location: new google.maps.LatLng(49.601667,18.482240), weight: 41},
-          {location: new google.maps.LatLng(49.293730,17.433348), weight: 8},
-          {location: new google.maps.LatLng(49.032338,17.583764), weight: 27},
-          {location: new google.maps.LatLng(49.382823,18.090550), weight: 10},
-          {location: new google.maps.LatLng(49.184853,17.790152), weight: 12},
-          {location: new google.maps.LatLng(49.683933,17.266823), weight: 69},
-          {location: new google.maps.LatLng(49.499718,17.036169), weight: 12},
-          {location: new google.maps.LatLng(49.489504,17.587254), weight: 1},
-          {location: new google.maps.LatLng(49.966649,16.939316), weight: 2},
-          {location: new google.maps.LatLng(50.273809,17.170307), weight: 1},
-          {location: new google.maps.LatLng(49.206023,16.599237), weight: 42},
-          {location: new google.maps.LatLng(49.339829,16.405365), weight: 6},
-          {location: new google.maps.LatLng(49.067884,16.598262), weight: 6},
-          {location: new google.maps.LatLng(49.460362,16.635340), weight: 5},
-          {location: new google.maps.LatLng(48.837115,16.783454), weight: 12},
-          {location: new google.maps.LatLng(48.940269,17.213463), weight: 2},
-          {location: new google.maps.LatLng(49.233219,16.985990), weight: 2},
-          {location: new google.maps.LatLng(48.898722,16.140731), weight: 3},
-          {location: new google.maps.LatLng(50.231812,15.691164), weight: 11},
-          {location: new google.maps.LatLng(50.409083,15.426049), weight: 1},
-          {location: new google.maps.LatLng(50.469582,16.150419), weight: 3},
-          {location: new google.maps.LatLng(50.197437,16.260331), weight: 1},
-          {location: new google.maps.LatLng(50.561237,15.827796), weight: 2},
-          {location: new google.maps.LatLng(49.892960,16.238224), weight: 28},
-          {location: new google.maps.LatLng(49.323385,15.552532), weight: 1},
-          {location: new google.maps.LatLng(49.673087,15.568357), weight: 11},
-          {location: new google.maps.LatLng(49.429860,15.140478), weight: 0},
-          {location: new google.maps.LatLng(49.161355,15.900628), weight: 2},
-          {location: new google.maps.LatLng(49.511151,16.069591), weight: 3},
-          {location: new google.maps.LatLng(49.259338,13.888760), weight: 10},
-          {location: new google.maps.LatLng(49.370340,14.206750), weight: 0},
-          {location: new google.maps.LatLng(49.372197,14.677274), weight: 2},
-          {location: new google.maps.LatLng(48.987208,13.879521), weight: 7},
-          {location: new google.maps.LatLng(49.003238,14.516330), weight: 7},
-          {location: new google.maps.LatLng(49.095091,15.038811), weight: 0},
-          {location: new google.maps.LatLng(48.741653,14.305492), weight: 4},
-          {location: new google.maps.LatLng(49.653876,13.224598), weight: 21},
-          {location: new google.maps.LatLng(50.653147,14.630330), weight: 1},
-          {location: new google.maps.LatLng(50.778629,14.984695), weight: 3},
-          {location: new google.maps.LatLng(50.726957,15.244553), weight: 6},
-          {location: new google.maps.LatLng(50.592572,15.402058), weight: 1},
-          {location: new google.maps.LatLng(50.180802,12.750471), weight: 40}
+          {location: new google.maps.LatLng(50.086601,14.411545), weight: 11},
+        {location: new google.maps.LatLng(50.071466,14.429272), weight: 14},
+        {location: new google.maps.LatLng(50.085427,14.467366), weight: 9},
+        {location: new google.maps.LatLng(50.037846,14.438510), weight: 60},
+        {location: new google.maps.LatLng(50.054534,14.383326), weight: 56},
+        {location: new google.maps.LatLng(50.092909, 14.340886), weight: 48},
+        {location: new google.maps.LatLng(50.103611,14.434229), weight: 16},
+        {location: new google.maps.LatLng(50.124854,14.452172), weight: 33},
+        {location: new google.maps.LatLng(50.108952,14.508173), weight: 42},
+        {location: new google.maps.LatLng(50.068334,14.495635), weight: 43},
+        {location: new google.maps.LatLng(49.924184,14.014610), weight: 8},
+        {location: new google.maps.LatLng(49.739774,14.783227), weight: 20},
+        {location: new google.maps.LatLng(49.877726,15.242714), weight: 4},
+        {location: new google.maps.LatLng(50.197746,14.083477), weight: 18},
+        {location: new google.maps.LatLng(50.022584,15.079596), weight: 7},
+        {location: new google.maps.LatLng(50.402812,14.891524), weight: 4},
+        {location: new google.maps.LatLng(50.351120,14.517558), weight: 20},
+        {location: new google.maps.LatLng(50.202868,15.083989), weight: 6},
+        {location: new google.maps.LatLng(49.671860,14.122258), weight: 8},
+        {location: new google.maps.LatLng(49.956136,14.749302), weight: 11},
+        {location: new google.maps.LatLng(50.187268,14.619685), weight: 11},
+        {location: new google.maps.LatLng(50.073541,14.218358), weight: 10},
+        {location: new google.maps.LatLng(49.900478,14.346074), weight: 10},
+        {location: new google.maps.LatLng(50.086487,13.725304), weight: 2},
+        {location: new google.maps.LatLng(50.476927,13.803324), weight: 43},
+        {location: new google.maps.LatLng(50.025691,17.450839), weight: 13},
+        {location: new google.maps.LatLng(49.897404,17.877826), weight: 18},
+        {location: new google.maps.LatLng(49.649969,18.011741), weight: 7},
+        {location: new google.maps.LatLng(49.805040,18.232597), weight: 33},
+        {location: new google.maps.LatLng(49.829720,18.480567), weight: 10},
+        {location: new google.maps.LatLng(49.601667,18.482240), weight: 43},
+        {location: new google.maps.LatLng(49.293730,17.433348), weight: 11},
+        {location: new google.maps.LatLng(49.032338,17.583764), weight: 30},
+        {location: new google.maps.LatLng(49.382823,18.090550), weight: 11},
+        {location: new google.maps.LatLng(49.184853,17.790152), weight: 15},
+        {location: new google.maps.LatLng(49.683933,17.266823), weight: 82},
+        {location: new google.maps.LatLng(49.499718,17.036169), weight: 13},
+        {location: new google.maps.LatLng(49.489504,17.587254), weight: 1},
+        {location: new google.maps.LatLng(49.966649,16.939316), weight: 2},
+        {location: new google.maps.LatLng(50.273809,17.170307), weight: 1},
+        {location: new google.maps.LatLng(49.206023,16.599237), weight: 47},
+        {location: new google.maps.LatLng(49.339829,16.405365), weight: 6},
+        {location: new google.maps.LatLng(49.067884,16.598262), weight: 6},
+        {location: new google.maps.LatLng(49.460362,16.635340), weight: 5},
+        {location: new google.maps.LatLng(48.837115,16.783454), weight: 14},
+        {location: new google.maps.LatLng(48.940269,17.213463), weight: 2},
+        {location: new google.maps.LatLng(49.233219,16.985990), weight: 0},
+        {location: new google.maps.LatLng(48.898722,16.140731), weight: 5},
+        {location: new google.maps.LatLng(50.231812,15.691164), weight: 11},
+        {location: new google.maps.LatLng(50.409083,15.426049), weight: 1},
+        {location: new google.maps.LatLng(50.469582,16.150419), weight: 3},
+        {location: new google.maps.LatLng(50.197437,16.260331), weight: 1},
+        {location: new google.maps.LatLng(50.561237,15.827796), weight: 2},
+        {location: new google.maps.LatLng(49.892960,16.238224), weight: 31},
+        {location: new google.maps.LatLng(49.323385,15.552532), weight: 2},
+        {location: new google.maps.LatLng(49.673087,15.568357), weight: 16},
+        {location: new google.maps.LatLng(49.429860,15.140478), weight: 0},
+        {location: new google.maps.LatLng(49.161355,15.900628), weight: 2},
+        {location: new google.maps.LatLng(49.511151,16.069591), weight: 3},
+        {location: new google.maps.LatLng(49.259338,13.888760), weight: 10},
+        {location: new google.maps.LatLng(49.370340,14.206750), weight: 0},
+        {location: new google.maps.LatLng(49.372197,14.677274), weight: 2},
+        {location: new google.maps.LatLng(48.987208,13.879521), weight: 7},
+        {location: new google.maps.LatLng(49.003238,14.516330), weight: 7},
+        {location: new google.maps.LatLng(49.095091,15.038811), weight: 0},
+        {location: new google.maps.LatLng(48.741653,14.305492), weight: 4},
+        {location: new google.maps.LatLng(49.653876,13.224598), weight: 21},
+        {location: new google.maps.LatLng(50.653147,14.630330), weight: 1},
+        {location: new google.maps.LatLng(50.778629,14.984695), weight: 5},
+        {location: new google.maps.LatLng(50.726957,15.244553), weight: 6},
+        {location: new google.maps.LatLng(50.592572,15.402058), weight: 1},
+        {location: new google.maps.LatLng(50.180802,12.750471), weight: 42}
+
 
 
         ];
